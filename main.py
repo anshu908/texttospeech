@@ -20,7 +20,7 @@ def text_to_speech():
     tts = gTTS(text)  # No credit in audio
     tts.save(filepath)
     
-    audio_url = f"http://127.0.0.1:5000/audio/{filename}"
+    audio_url = f"/audio/{filename}"
     
     return jsonify({"message": "Audio generated successfully by AnshAPi", "audio_url": audio_url})
 
@@ -29,4 +29,5 @@ def serve_audio(filename):
     return send_from_directory(audio_folder, filename)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 8080))  # Cloudflare compatible port
+    app.run(debug=True, host='0.0.0.0', port=port)
